@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dasbor Kinerja Tim – Yayasan Sahabat Kemanusiaan Nusantara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F6FA;--surface:#FFFFFF;--ink:#1B2150;--muted:#5B6285;--line:#DDE0EC;--brand:#1F2A7A;--gold:#E3A008;--ok:#0E8A6B;--warn:#B7791F;--bad:#C0392B;--okbg:#DDF3EC;--warnbg:#FBEFD3;--badbg:#F8DFDB;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10132B;--surface:#1A1F42;--ink:#EEF0FA;--muted:#A3A9CC;--line:#2E3566;--brand:#8E9BFF;--gold:#F2B83A;--ok:#4FD1A8;--warn:#F2B83A;--bad:#FF8A7A;--okbg:#12362F;--warnbg:#3A3015;--badbg:#44211F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10132B;--surface:#1A1F42;--ink:#EEF0FA;--muted:#A3A9CC;--line:#2E3566;--brand:#8E9BFF;--gold:#F2B83A;--ok:#4FD1A8;--warn:#F2B83A;--bad:#FF8A7A;--okbg:#12362F;--warnbg:#3A3015;--badbg:#44211F;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
+header{border-left:6px solid var(--gold);padding-left:14px;margin-bottom:20px}
+h1{font-size:clamp(1.4rem,4vw,2rem);margin:0;font-weight:800;letter-spacing:-.01em}
+header p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+.note{background:var(--warnbg);color:var(--ink);border-radius:8px;padding:10px 14px;font-size:.88rem;margin-bottom:20px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi b{display:block;font-size:2rem;font-weight:800;line-height:1.1}
+.kpi span{color:var(--muted);font-size:.85rem}
+.kpi.main{background:var(--brand);color:#fff;border-color:var(--brand)}
+.kpi.main span{color:#DDE1FF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kpi.main{background:#2B3590;border-color:#2B3590}}
+h2{font-size:1.1rem;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:24px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.drow{display:grid;grid-template-columns:130px 1fr 48px;gap:10px;align-items:center;margin:10px 0;font-size:.88rem}
+.track{background:var(--line);border-radius:6px;height:14px;overflow:hidden;position:relative}
+.fill{height:100%;border-radius:6px;transition:width .35s}
+.tick{position:absolute;left:75%;top:0;bottom:0;width:2px;background:var(--ink);opacity:.35}
+.pct{text-align:right;font-weight:700}
+.alert-item{padding:10px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.alert-item:last-child{border:0}
+.alert-item small{display:block;color:var(--muted)}
+.empty{color:var(--muted);font-size:.9rem}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 14px;border-radius:20px;font:inherit;font-size:.85rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip[aria-pressed="true"]{background:#2B3590;color:#fff}}
+.chip:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+select{font:inherit;font-size:.85rem;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);margin-left:auto}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:680px;font-size:.9rem}
+th{text-align:left;font-weight:700;color:var(--muted);font-size:.8rem;padding:8px 10px;border-bottom:2px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+td small{color:var(--muted);display:block}
+input[type=number]{width:84px;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.78rem;font-weight:700;white-space:nowrap}
+.b-ok{background:var(--okbg);color:var(--ok)}.b-warn{background:var(--warnbg);color:var(--warn)}.b-bad{background:var(--badbg);color:var(--bad)}
+.mini{width:90px;display:inline-block;vertical-align:middle;margin-right:8px}
+footer{margin-top:20px;color:var(--muted);font-size:.82rem}
+.head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.head h2{margin:0}
+.primary{font:inherit;font-size:.85rem;border:0;background:var(--brand);color:var(--surface);border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:700}
+.rowbtn{font:inherit;font-size:.8rem;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:6px;padding:4px 10px;margin-right:4px;cursor:pointer;white-space:nowrap}
+.rowbtn.danger{color:var(--bad)}
+.rowbtn:focus-visible,.primary:focus-visible,.reset:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:0;width:min(440px,92vw)}
+dialog::backdrop{background:rgba(10,12,35,.55)}
+.dform{padding:18px;display:grid;gap:10px}.dform h2{margin:0}
+.dform label{display:grid;gap:4px;font-size:.85rem;font-weight:700}
+.dform input{font:inherit;font-weight:400;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acts{display:flex;justify-content:flex-end;gap:8px}
+.errmsg{color:var(--bad);font-size:.85rem;margin:0;min-height:1.2em}
+button.reset{font:inherit;font-size:.85rem;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:8px;padding:7px 12px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Dasbor Kinerja Tim</h1>
+<p>Yayasan Sahabat Kemanusiaan Nusantara · Periode Oktober 2026</p>
+</header>
+<div class="note">Data di bawah adalah contoh. Gunakan “Tambah anggota”, “Ubah”, dan “Hapus” untuk mengisi tim yang sebenarnya. Perubahan tersimpan di peramban ini.</div>
+
+<section class="kpis" id="kpis" aria-label="Ringkasan"></section>
+
+<div class="grid">
+<section class="panel"><h2>Rata-rata capaian per divisi</h2><div id="divs"></div><p class="empty" style="margin:8px 0 0">Garis tegak menandai batas 75%, di bawahnya perlu perhatian.</p></section>
+<section class="panel"><h2>Perlu tindak lanjut</h2><div id="alerts"></div></section>
+</div>
+
+<section class="panel">
+<div class="head"><h2>Kinerja per anggota</h2><button class="primary" id="add" type="button">Tambah anggota</button></div>
+<div class="bar" id="filters"></div>
+<div class="scroll"><table>
+<thead><tr><th>Anggota</th><th>Indikator utama</th><th>Target</th><th>Capaian</th><th>Persentase</th><th>Status</th><th>Aksi</th></tr></thead>
+<tbody id="rows"></tbody></table></div>
+<p style="margin:12px 0 0"><button class="reset" id="reset" type="button">Kembalikan data contoh</button></p>
+</section>
+<footer>Status: Tercapai (100% atau lebih) · Sesuai jalur (75–99%) · Perlu perhatian (di bawah 75%).</footer>
+<dialog id="dlg"><div class="dform"><h2 id="dlgTitle"></h2>
+<label>Nama<input id="f_n" type="text"></label>
+<label>Peran atau jabatan<input id="f_r" type="text"></label>
+<label>Divisi<input id="f_d" type="text" list="dl"></label><datalist id="dl"></datalist>
+<label>Indikator utama<input id="f_k" type="text" placeholder="Contoh: Penerima manfaat"></label>
+<div class="two"><label>Target<input id="f_t" type="number" min="1"></label><label>Capaian<input id="f_c" type="number" min="0"></label></div>
+<p id="err" class="errmsg" role="alert"></p>
+<div class="acts"><button class="reset" id="cancel" type="button">Batal</button><button class="primary" id="save" type="button">Simpan</button></div></div></dialog>
+</div>
+
+<script>
+var DEFAULT=[
+{n:"Siti Rahmawati",r:"Koordinator Program",d:"Program Lapangan",k:"Penerima manfaat",t:1200,c:1050},
+{n:"Yohanes Lado",r:"Fasilitator NTT",d:"Program Lapangan",k:"Kegiatan terlaksana",t:26,c:24},
+{n:"Andi Pratama",r:"Manajer Penggalangan Dana",d:"Penggalangan Dana",k:"Dana terkumpul (juta Rp)",t:500,c:330},
+{n:"Maria Goretti",r:"Hubungan Donatur",d:"Penggalangan Dana",k:"Donatur baru",t:150,c:172},
+{n:"Budi Santoso",r:"Kepala Logistik",d:"Logistik",k:"Paket bantuan tersalur",t:3000,c:3340},
+{n:"Fitri Handayani",r:"Staf Distribusi",d:"Logistik",k:"Pengiriman tepat waktu (%)",t:95,c:78},
+{n:"Dewi Lestari",r:"Koordinator Relawan",d:"Relawan",k:"Relawan aktif",t:200,c:150},
+{n:"Rizky Ramadhan",r:"Pelatih Relawan",d:"Relawan",k:"Jam pelatihan",t:120,c:96},
+{n:"Ayu Wulandari",r:"Staf Keuangan",d:"Keuangan & Pelaporan",k:"Laporan tepat waktu",t:12,c:12}
+];
+var data,filter="Semua",sortBy="asli";
+function load(){try{var s=localStorage.getItem("ysk-data");if(s){var p=JSON.parse(s);if(Array.isArray(p))return p}}catch(e){}return JSON.parse(JSON.stringify(DEFAULT))}
+function save(){try{localStorage.setItem("ysk-data",JSON.stringify(data))}catch(e){}}
+data=load();
+function pct(m){return Math.round(m.c/m.t*100)}
+function st(p){return p>=100?["Tercapai","b-ok","var(--ok)"]:p>=75?["Sesuai jalur","b-warn","var(--warn)"]:["Perlu perhatian","b-bad","var(--bad)"]}
+function fmt(n){return n.toLocaleString("id-ID")}
+function render(){
+ var ps=data.map(pct),avg=ps.length?Math.round(ps.reduce(function(a,b){return a+b},0)/ps.length):0;
+ var ok=ps.filter(function(p){return p>=100}).length,bad=ps.filter(function(p){return p<75}).length;
+ document.getElementById("kpis").innerHTML=
+  '<div class="kpi main"><b>'+avg+'%</b><span>Rata-rata capaian tim</span></div>'+
+  '<div class="kpi"><b>'+ok+' dari '+data.length+'</b><span>Anggota mencapai target</span></div>'+
+  '<div class="kpi"><b>'+bad+'</b><span>Anggota perlu perhatian</span></div>';
+ var divs=[],i;data.forEach(function(m){if(divs.indexOf(m.d)<0)divs.push(m.d)});
+ document.getElementById("divs").innerHTML=divs.map(function(d){
+  var l=data.filter(function(m){return m.d===d}),a=Math.round(l.reduce(function(s,m){return s+pct(m)},0)/l.length),c=st(a)[2];
+  return '<div class="drow"><span>'+esc(d)+'</span><div class="track"><div class="fill" style="width:'+Math.min(a,100)+'%;background:'+c+'"></div><div class="tick"></div></div><span class="pct">'+a+'%</span></div>'}).join("");
+ var low=data.filter(function(m){return pct(m)<75}).sort(function(a,b){return pct(a)-pct(b)});
+ document.getElementById("alerts").innerHTML=low.length?low.map(function(m){
+  return '<div class="alert-item"><b>'+esc(m.n)+'</b> · '+pct(m)+'%<small>'+esc(m.k)+': '+fmt(m.c)+' dari '+fmt(m.t)+'. Jadwalkan tinjauan satu lawan satu untuk mencari hambatan.</small></div>'}).join(""):'<p class="empty">Semua anggota berada di atas 75%. Pertahankan.</p>';
+ if(filter!=="Semua"&&divs.indexOf(filter)<0)filter="Semua";var fl=["Semua"].concat(divs);
+ document.getElementById("filters").innerHTML=fl.map(function(f){return '<button class="chip" type="button" data-f="'+esc(f)+'" aria-pressed="'+(f===filter)+'">'+esc(f)+'</button>'}).join("")+
+  '<select id="sort" aria-label="Urutkan"><option value="asli"'+(sortBy==="asli"?" selected":"")+'>Urutan tim</option><option value="rendah"'+(sortBy==="rendah"?" selected":"")+'>Capaian terendah dulu</option><option value="tinggi"'+(sortBy==="tinggi"?" selected":"")+'>Capaian tertinggi dulu</option></select>';
+ var idx=data.map(function(m,k){return k}).filter(function(k){return filter==="Semua"||data[k].d===filter});
+ if(sortBy==="rendah")idx.sort(function(a,b){return pct(data[a])-pct(data[b])});
+ if(sortBy==="tinggi")idx.sort(function(a,b){return pct(data[b])-pct(data[a])});
+ document.getElementById("rows").innerHTML=idx.map(function(k){var m=data[k],p=pct(m),s=st(p);
+  return '<tr><td><b>'+esc(m.n)+'</b><small>'+esc(m.r)+' · '+esc(m.d)+'</small></td><td>'+esc(m.k)+'</td><td>'+fmt(m.t)+'</td>'+
+  '<td><input type="number" min="0" value="'+m.c+'" data-i="'+k+'" aria-label="Capaian '+esc(m.n)+'"></td>'+
+  '<td><span class="track mini"><span class="fill" style="display:block;width:'+Math.min(p,100)+'%;background:'+s[2]+'"></span></span><b>'+p+'%</b></td>'+
+  '<td><span class="badge '+s[1]+'">'+s[0]+'</span></td><td><button class="rowbtn" type="button" data-edit="'+k+'">Ubah</button><button class="rowbtn danger" type="button" data-del="'+k+'">'+(armed===k?"Yakin hapus?":"Hapus")+'</button></td></tr>'}).join("")||'<tr><td colspan="7" class="empty">Belum ada anggota. Pilih “Tambah anggota”.</td></tr>';
+}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-f]");if(b){filter=b.getAttribute("data-f");render()}});
+document.addEventListener("change",function(e){
+ if(e.target.id==="sort"){sortBy=e.target.value;render();return}
+ var i=e.target.getAttribute("data-i");
+ if(i!==null){var v=parseFloat(e.target.value);data[i].c=isNaN(v)||v<0?0:v;save();render()}
+});
+var armed=-1,editing=-1,dlg=document.getElementById("dlg"),F=["n","r","d","k","t","c"];
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function openDlg(i){editing=i;var m=i<0?{n:"",r:"",d:"",k:"",t:"",c:0}:data[i],u=[];
+ document.getElementById("dlgTitle").textContent=i<0?"Tambah anggota":"Ubah anggota";
+ F.forEach(function(f){document.getElementById("f_"+f).value=m[f]});
+ data.forEach(function(x){if(u.indexOf(x.d)<0)u.push(x.d)});
+ document.getElementById("dl").innerHTML=u.map(function(x){return '<option value="'+esc(x)+'">'}).join("");
+ document.getElementById("err").textContent="";
+ if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","");
+ document.getElementById("f_n").focus()}
+function closeDlg(){if(dlg.close)dlg.close();else dlg.removeAttribute("open")}
+document.getElementById("add").addEventListener("click",function(){openDlg(-1)});
+document.getElementById("cancel").addEventListener("click",closeDlg);
+document.getElementById("save").addEventListener("click",function(){
+ var v={};F.forEach(function(f){v[f]=document.getElementById("f_"+f).value.trim()});
+ var t=parseFloat(v.t),c=parseFloat(v.c===""?"0":v.c),e=document.getElementById("err");
+ if(!v.n||!v.d||!v.k){e.textContent="Isi nama, divisi, dan indikator utama.";return}
+ if(isNaN(t)||t<=0){e.textContent="Target harus berupa angka lebih dari 0.";return}
+ if(isNaN(c)||c<0){e.textContent="Capaian harus berupa angka 0 atau lebih.";return}
+ var o={n:v.n,r:v.r,d:v.d,k:v.k,t:t,c:c};
+ if(editing<0)data.push(o);else data[editing]=o;
+ save();closeDlg();render()});
+document.addEventListener("click",function(e){
+ var b=e.target.closest("[data-edit]");if(b){openDlg(parseInt(b.getAttribute("data-edit"),10));return}
+ b=e.target.closest("[data-del]");if(b){var i=parseInt(b.getAttribute("data-del"),10);
+  if(armed===i){data.splice(i,1);armed=-1;save();render()}
+  else{armed=i;render();setTimeout(function(){if(armed===i){armed=-1;render()}},3500)}}});
+document.getElementById("reset").addEventListener("click",function(){data=JSON.parse(JSON.stringify(DEFAULT));save();render()});
+render();
+</script>
+</body>
+</html>
